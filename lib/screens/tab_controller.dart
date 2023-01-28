@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_c7_str/models/NewsDataModel.dart';
+import 'package:news_c7_str/repo/dto/remote_api.dart';
 import 'package:news_c7_str/screens/tab_item.dart';
 import 'package:news_c7_str/shared/network/remote/api_manager.dart';
 
@@ -18,6 +19,7 @@ class TabControllerScreen extends StatefulWidget {
 class _TabControllerScreenState extends State<TabControllerScreen> {
   int selectedIndex = 0;
 
+  ApiManager apiManager=ApiManager(baseRepository: RemoteApi());
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -41,7 +43,7 @@ class _TabControllerScreenState extends State<TabControllerScreen> {
           ),
         ),
         FutureBuilder<NewsDataModel>(
-          future: ApiManager.getNewsData(widget.
+          future: apiManager.baseRepository!.getNewsData(widget.
           sources[selectedIndex].id??""),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {

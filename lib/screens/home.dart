@@ -4,6 +4,8 @@ import 'package:news_c7_str/screens/tab_controller.dart';
 
 import '../models/SourcesResponse.dart';
 import '../models/category.dart';
+import '../repo/dto/local_db.dart';
+import '../repo/dto/remote_api.dart';
 import '../shared/network/remote/api_manager.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -11,10 +13,13 @@ class HomeScreen extends StatelessWidget {
   Category category;
   HomeScreen(this.category);
 
+  ApiManager apiManager=ApiManager(baseRepository: RemoteApi());
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<SourcesResponse>(
-      future:ApiManager.getSources(category.id) ,
+      future: apiManager.baseRepository!.getSources(category.id),
+      //future:ApiManager.getSources(category.id) ,
       builder: (context, snapshot) {
         if(snapshot.connectionState==ConnectionState.waiting){
           return Center(child: CircularProgressIndicator());
